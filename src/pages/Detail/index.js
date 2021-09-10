@@ -49,7 +49,7 @@ export default function Detail(){
           const jsonValue = JSON.stringify(usuario);
           await AsyncStorage.setItem(usuario.nome, jsonValue);
         } catch (e) {
-          console.log(e);
+          console.log("Erro: " + e);
         }
     }
 

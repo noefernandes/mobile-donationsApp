@@ -16,7 +16,6 @@ import styles from './styles';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default function Incidents(){
-    const [total, setTotal] = useState(0);
     const [usuariosLista, setUsuariosLista] = useState([]);
     
     //Similar ao useHistory do web.
@@ -56,6 +55,7 @@ export default function Incidents(){
     async function loadIncidents(){
         //setTotal(usuariosLista.length)
         const usuarios = [];
+        console.log("antes: " + usuario2);
         const usuario1 = await getUsuario("Usuario 1");
         const usuario2 = await getUsuario("Usuario 2");
         const usuario3 = await getUsuario("Usuario 3");
@@ -70,7 +70,9 @@ export default function Incidents(){
             usuarios.push(usuario3);
         }
 
-        console.log(usuario1);
+        console.log("Usuario 1 : " + usuario1);
+        console.log("Usuario 2 : " + usuario2);
+        console.log("Usuario 3 : " + usuario3);
         setUsuariosLista(usuarios);
     }
     //Função que dispara toda vez que as variáveis nos colchetes mudam
@@ -128,7 +130,7 @@ export default function Incidents(){
                         <TouchableOpacity 
                         style={styles.detailsButton} 
                         //Usa-se arrow function para não chamar imediatamente 
-                        onPress={() => (usuario.nome)}
+                        onPress={() => removeUsuario(usuario.nome)}
                         >
                             <Text style={styles.detailsButtonText}>Remover usuário</Text>
                             <Feather name='trash-2' size={16} color='#E02041' />
