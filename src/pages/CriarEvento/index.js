@@ -1,85 +1,73 @@
 //useEffect: carrega uma informação assim que o objeto entra em tela
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+//Touchable opacity: torna qualquer coisa clicável
+//e diminui sua opacidade ao clique.
+import { View, FlatList, Image, Text, TouchableOpacity } from 'react-native';
 
-//Linking: usado para enviar a mensagem no whatsapp
-import { View, Image, Text, TouchableOpacity, Linking } from 'react-native';
-//Para instalar: expo install expo-mail-composer
-//Exporta tudo de expo-mail-composer para  MailComposer
-import * as MailComposer from 'expo-mail-composer';
+import api from '../../services/api';
 
-import perfil from '../../assets/perfil.png';
+//Importa automaticamente a logo no melhor formato
+//de acordo com a tela.
+import logoImg from '../../assets/logo.png'; 
 
 import styles from './styles';
+import { TextInput } from 'react-native-gesture-handler';
 
-export default function Detail(){
+export default function ListaEventos(){
+    const [nomeEvento, setNomeEvento] = useState("");
+    
+    //Similar ao useHistory do web.
     const navigation = useNavigation();
-    //Pega informações específicas da página atual.
-    const route = useRoute();
-    //pega o parametro incident que a rota (página) recebeu
-    const usuario = route.params.usuario;
-    const message = `Olá ${usuario.name}, estou entrando em contato.`;
 
     function navigateBack(){
         //Método do useNavigation que retorna a página anterior
         navigation.goBack();
     }
 
-    function sendMail(){
-        MailComposer.composeAsync({
-            //Assunto da mensagem
-            subject: `Assunto da mensagem`,
-            //Pra quem o email será enviado
-            recipients: [usuario.email],
-            //Conteúdo da menssagem
-            body: message,
-
-        });
+    function navigateToEvento(nome){
+        //console.log(nome);
+        navigation.navigate('Evento', { nome } );
     }
 
-    function sendWhatsapp(){
-        Linking.openURL(`whatsapp://send?phone=${usuario.telefone}&text=${message}`);
+    
+    async function loadIncidents(){
+        
     }
 
+    //Função que dispara toda vez que as variáveis nos colchetes mudam
+    useEffect(() => {
+        loadIncidents();
+    }, []);
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-            <Image source={perfil} style={{width: 60, height: 60, marginTop: 0}} />
+                <Image source={logoImg} style={{height: 100, width: 100}} />
                 <TouchableOpacity onPress={navigateBack}>
                     <Feather name='arrow-left' size={28} color='#E02041' />
                 </TouchableOpacity>
             </View>
 
+            <Text style={styles.headerText}>
+                Criar novo evento        
+            </Text>
+            <TextInput style={styles.input} 
+                       onChangeText={setNomeEvento}
+                       placeholder={"Digite o nome do evento..."}>
+            </TextInput>
+            <TouchableOpacity 
+            style={styles.detailsButton}  
+            onPress={() => navigateToEvento(nomeEvento)}
+            >
+                <Text style={styles.detailsButtonText}>Criar</Text>
+                <Feather name='arrow-right' size={16} color='#E02041' />
+            </TouchableOpacity>
+
             
-            <View style={styles.incident}>
-                <Text style={styles.incidentProperty}>Nome:</Text>
-                <Text style={styles.incidentValue}>{usuario.nome}</Text>
+            {/* Usado sempre (no lugar da view) que se trabalha com listagem de dados */}
+        </View>   
 
-                <Text style={styles.incidentProperty}>Endereço:</Text>
-                <Text style={styles.incidentValue}>usuario.endereco</Text>
-
-                <Text style={styles.incidentProperty}>Dados bancários:</Text>
-                <Text style={styles.incidentValue}>Banco x</Text>
-                <Text style={styles.incidentValue}>abcd-9</Text>
-            </View>
-
-            <View style={styles.contactBox}>
-                <Text style={styles.heroTitle}>Entre em contato:</Text>
-
-                <View style={styles.actions}>
-                    <TouchableOpacity style={styles.action} onPress={sendWhatsapp}>
-                        <Text style={styles.actionText}>Whatsapp</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.action} onPress={sendMail}>
-                        <Text style={styles.actionText}>E-mail</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-        </View>
     );
 }

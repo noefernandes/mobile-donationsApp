@@ -44,10 +44,10 @@ export default StyleSheet.create({
     }, 
 
     incident: {
-        padding: 24,
+        padding: 12,
         borderRadius: 8,
         backgroundColor: '#FFF',
-        marginBottom: 16,
+        marginBottom: 12,
     },
 
     incidentProperty: {

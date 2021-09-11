@@ -16,13 +16,12 @@ import styles from './styles';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default function Incidents(){
-    const [total, setTotal] = useState(0);
     
     //Similar ao useHistory do web.
     const navigation = useNavigation();
 
     //Colocado agora: usuarios
-    const usuario1 = {id: 1, descricao: "Descrição 1", nome: "Usuario 1", endereco: "Rua 1", email: "usuario1@mail.com", telefone: "99999999"}
+    const usuario1 = {id: 1, descricao: "Descrição 1", nome: "Usuario 1", endereco: "Rua 1", email: "usuario1@mail.com", telefone: "00000000"}
     const usuario2 = {id: 2, descricao: "Descrição 2", nome: "Usuario 2", endereco: "Rua 2", email: "usuario2@mail.com", telefone: "99999999"}
     const usuario3 = {id: 3, descricao: "Descrição 3", nome: "Usuario 3", endereco: "Rua 3", email: "usuario3@mail.com", telefone: "99999999"}
     const usuariosLista = [usuario1, usuario2, usuario3]
@@ -31,12 +30,20 @@ export default function Incidents(){
         navigation.navigate('Detail', { usuario });
     }
 
+    function navigateToCriarEvento(){
+        navigation.navigate('CriarEvento');
+    }
+
+    function navigateToListaEventos(){
+        navigation.navigate('ListaEventos');
+    }
+
     function navigateToContacts(){
         navigation.navigate('ContatosSalvos');
     }
 
     async function loadIncidents(){
-        setTotal(usuariosLista.length)
+        
     }
     //Função que dispara toda vez que as variáveis nos colchetes mudam
     useEffect(() => {
@@ -48,9 +55,18 @@ export default function Incidents(){
             <View style={styles.header}>
                 <Image source={logoImg} style={{height: 100, width: 100}} />
                 <Text style={styles.headerText}>
-                    Total de <Text style={styles.headerTextBold}> {total} usuários </Text>.
+                    Total de <Text style={styles.headerTextBold}> 3 usuários </Text>.
                 </Text>
             </View>
+
+            <TouchableOpacity 
+                        style={styles.detailsButton} 
+                        //Usa-se arrow function para não chamar imediatamente 
+                        onPress={() => navigateToCriarEvento()}
+                        >
+                            <Text style={styles.detailsButtonText}>Criar evento</Text>
+                            <Feather name='arrow-right' size={16} color='#E02041' />
+                        </TouchableOpacity>
 
             <TouchableOpacity 
                         style={styles.detailsButton} 
@@ -60,6 +76,14 @@ export default function Incidents(){
                             <Text style={styles.detailsButtonText}>Ver contatos salvos</Text>
                             <Feather name='arrow-right' size={16} color='#E02041' />
                         </TouchableOpacity>
+            <TouchableOpacity 
+                        style={styles.detailsButton} 
+                        //Usa-se arrow function para não chamar imediatamente 
+                        onPress={() => navigateToListaEventos()}
+                        >
+                            <Text style={styles.detailsButtonText}>Eventos</Text>
+                            <Feather name='arrow-right' size={16} color='#E02041' />
+            </TouchableOpacity>
             <TextInput style={styles.input} placeholder={"Digite o nome do usuário..."}></TextInput>
 
             

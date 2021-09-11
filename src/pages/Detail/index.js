@@ -3,7 +3,6 @@ import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { AsyncStorage } from 'react-native';
-import localStorage from 'react-native-sync-localstorage'
 
 //Linking: usado para enviar a mensagem no whatsapp
 import { View, Image, Text, TouchableOpacity, Linking } from 'react-native';

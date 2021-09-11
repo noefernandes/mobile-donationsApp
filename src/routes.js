@@ -9,6 +9,7 @@ import Detail from './pages/Detail';
 import ContatosSalvos from './pages/ContatosSalvos';
 import Evento from './pages/Evento';
 import CriarEvento from './pages/CriarEvento';
+import ListaEventos from './pages/ListaEventos';
 
 export default function Routes(){
     return (
@@ -20,6 +21,7 @@ export default function Routes(){
                 <AppStack.Screen name="ContatosSalvos" component={ContatosSalvos} />
                 <AppStack.Screen name="CriarEvento" component={CriarEvento} />
                 <AppStack.Screen name="Evento" component={Evento} />
+                <AppStack.Screen name="ListaEventos" component={ListaEventos} />
             </AppStack.Navigator>
 
         </NavigationContainer>

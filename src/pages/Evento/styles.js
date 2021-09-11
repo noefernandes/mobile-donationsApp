@@ -75,5 +75,18 @@ export default StyleSheet.create({
        color: '#FFF',
         fontSize: 15,
         fontWeight: 'bold',
+    },
+
+    detailsButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+
+    detailsButtonText: {
+        marginTop: 10,
+        color: '#e02041',
+        fontSize: 15,
+        fontWeight: 'bold',
     }
 });

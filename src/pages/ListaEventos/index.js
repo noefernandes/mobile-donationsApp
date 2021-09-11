@@ -15,35 +15,24 @@ import logoImg from '../../assets/logo.png';
 import styles from './styles';
 import { TextInput } from 'react-native-gesture-handler';
 
-export default function ContatosSalvos(){
-    const [usuarios, setUsuarios] = useState([]);
+export default function Incidents(){
+    const [eventosLista, setEventosLista] = useState([]);
     
     //Similar ao useHistory do web.
     const navigation = useNavigation();
 
     //Se recebe parametro, pode enviá-lo a pagina destino (detail).
-    function navigateToDetail(usuario){
-        navigation.navigate('Detail', { usuario });
-    }
 
     function navigateBack(){
         //Método do useNavigation que retorna a página anterior
         navigation.goBack();
     }
 
-    const removeUsuario = async (nome) => {
-        try {
-            await AsyncStorage.removeItem(nome);
-        }
-        catch(exception) {
-            console.log(e);
-        }
-    }
-
-    const getUsuario = async (nome) => {
+    const getEvento = async (nome) => {
         try {
             const jsonValue = await AsyncStorage.getItem(nome)
             if(jsonValue != null){
+                //console.log(JSON.parse(jsonValue));
                 return JSON.parse(jsonValue);
             }
         } catch(e) {
@@ -53,27 +42,27 @@ export default function ContatosSalvos(){
     }
 
     async function loadIncidents(){
-        //setTotal(usuariosLista.length)
-        const usuarios_ = [];
+        var lista_eventos = [];
         //console.log("antes: " + usuario2);
-        const usuario1 = await getUsuario("Usuario 1");
-        const usuario2 = await getUsuario("Usuario 2");
-        const usuario3 = await getUsuario("Usuario 3");
+        const evento1 = await getEvento("1");
+        const evento2 = await getEvento("2");
+        const evento3 = await getEvento("3");
 
-        if(usuario1 != null){
-            usuarios_.push(usuario1);
+        if(evento1 != null){
+            //console.log(evento1);
+            lista_eventos.push(evento1);
         }
-        if(usuario2 != null){
-            usuarios_.push(usuario2);
+        if(evento2 != null){
+            lista_eventos.push(evento2);
         }
-        if(usuario3 != null){
-            usuarios_.push(usuario3);
+        if(evento3 != null){
+            lista_eventos.push(evento3);
         }
 
-        //console.log("Usuario 1 : " + usuario1);
-        //console.log("Usuario 2 : " + usuario2);
-        //console.log("Usuario 3 : " + usuario3);
-        setUsuarios(usuarios_);
+        //console.log("Evento 1 : " + evento1);
+        //console.log("Evento 2 : " + evento2);
+        //console.log("Evento 3 : " + evento3);
+        setEventosLista(lista_eventos);
     }
     //Função que dispara toda vez que as variáveis nos colchetes mudam
     useEffect(() => {
@@ -88,18 +77,15 @@ export default function ContatosSalvos(){
                     <Feather name='arrow-left' size={28} color='#E02041' />
                 </TouchableOpacity>
             </View>
-
-            <TextInput style={styles.input} placeholder={"Digite o nome do usuário..."}></TextInput>
-
             
             {/* Usado sempre (no lugar da view) que se trabalha com listagem de dados */}
             
             <FlatList
                 //Array de dados vai montar a lista.
-                data={usuarios}
+                data={eventosLista}
                 style={styles.incidentList} 
                 //Informação única de cada item (necessário que seja string).
-                keyExtractor={usuario => String(usuario.id)}
+                keyExtractor={evento => String(evento.nome)}
                 //Retira o scroll sem desabilitar a rolagem.
                 showsVerticalScrollIndicator={false}
                 //Função disparada quando o usuario chega ao final da lista.
@@ -110,40 +96,10 @@ export default function ContatosSalvos(){
                 onEndReachedThreshold={0.2}
                 //Função responsável por renderizar cada item.
                 //item: incident - troca o nome da variavel item por incident.
-                renderItem={({item: usuario}) => (
+                renderItem={({item: evento}) => (
                     <View style={styles.incident}>
                         <Text style={styles.incidentProperty}>Nome:</Text>
-                        <Text style={styles.incidentValue}>{usuario.nome}</Text>
-
-                        <Text style={styles.incidentProperty}>Descrição:</Text>
-                        <Text style={styles.incidentValue}>{usuario.descricao}</Text>
-
-                        <Text style={styles.incidentProperty}>Endereço:</Text>
-                        <Text style={styles.incidentValue}>{usuario.endereco}</Text>
-
-                        <Text style={styles.incidentProperty}>E-mail:</Text>
-                        <Text style={styles.incidentValue}>{usuario.email}</Text>
-
-                        <Text style={styles.incidentProperty}>Telefone:</Text>
-                        <Text style={styles.incidentValue}>{usuario.telefone}</Text>
-
-                        <TouchableOpacity 
-                        style={styles.detailsButton} 
-                        //Usa-se arrow function para não chamar imediatamente 
-                        onPress={() => removeUsuario(usuario.nome)}
-                        >
-                            <Text style={styles.detailsButtonText}>Remover usuário</Text>
-                            <Feather name='trash-2' size={16} color='#E02041' />
-                        </TouchableOpacity>
-                        
-                        <TouchableOpacity 
-                        style={styles.detailsButton} 
-                        //Usa-se arrow function para não chamar imediatamente 
-                        onPress={() => navigateToDetail(usuario)}
-                        >
-                            <Text style={styles.detailsButtonText}>Ver mais detalhes</Text>
-                            <Feather name='arrow-right' size={16} color='#E02041' />
-                        </TouchableOpacity>
+                        <Text style={styles.incidentValue}>Evento {evento.nome}</Text>
                     </View>
                 )}
             />
